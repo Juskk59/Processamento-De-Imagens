@@ -11,11 +11,11 @@ class Model:
         self.controller = None
         
         # Cria os elos da cadeia (cada um faz uma etapa do processo)
-        self.elo1 = Elo_01()  # Redimensionamento
-        self.elo2 = Elo_02()  # Segmentação com K-Means
-        self.elo3 = Elo_03()  # Criação da máscara
-        self.elo4 = Elo_04()  # Refinamento (erosão e dilatação)
-        self.elo5 = Elo_05()  # Separação final (objeto e fundo)
+        self.elo1 = Elo_01()  
+        self.elo2 = Elo_02()  
+        self.elo3 = Elo_03()  
+        self.elo4 = Elo_04()  
+        self.elo5 = Elo_05()  
         
         # Liga os elos em sequência
         self.elo1.proximo = self.elo2
