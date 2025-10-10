@@ -1,52 +1,32 @@
-"""
-Elo 01 - Redimensionamento da imagem
-Reduz o tamanho se a imagem for muito grande
-"""
+# Elo 01 - Redimensionamento da imagem
 
 import cv2 as cv
 from elo import Elo
 
-
 class Elo_01(Elo):
     def processar(self, dados):
-        """Redimensiona a imagem se necessario"""
-        
+        # Redimensiona a imagem se for muito grande
         imagem = dados["imagem"]
         
-        # Verifica se a imagem existe
         if imagem is None:
             print("Elo_01: ERRO - Imagem nao encontrada")
             return dados
         
-        # Pega as dimensoes da imagem
         altura, largura = imagem.shape[:2]
-        
-        # Define o tamanho maximo (800 pixels)
         max_dimensao = 800
         
-        # Se a imagem for muito grande, redimensiona
+        # Se passar de 800px, reduz mantendo proporção
         if altura > max_dimensao or largura > max_dimensao:
-            # Calcula a escala de reducao
             escala = max_dimensao / max(altura, largura)
-            
-            # Calcula as novas dimensoes
             nova_largura = int(largura * escala)
             nova_altura = int(altura * escala)
             
-            # Redimensiona a imagem
-            dados["imagem"] = cv.resize(
-                imagem,
-                (nova_largura, nova_altura),
-                interpolation=cv.INTER_AREA
-            )
-            
-            # Guarda a escala para ajustar os pontos depois
+            dados["imagem"] = cv.resize(imagem, (nova_largura, nova_altura), interpolation=cv.INTER_AREA)
             dados["escala"] = escala
             
-            print(f"Elo_01: Imagem redimensionada de {largura}x{altura} para {nova_largura}x{nova_altura}")
+            print(f"Elo_01: Redimensionada de {largura}x{altura} para {nova_largura}x{nova_altura}")
         else:
-            # Mantem tamanho original
             dados["escala"] = 1.0
-            print(f"Elo_01: Imagem mantida no tamanho original {largura}x{altura}")
+            print(f"Elo_01: Mantida no tamanho original {largura}x{altura}")
         
         return dados
